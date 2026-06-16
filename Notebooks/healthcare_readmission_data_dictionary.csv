@@ -1,0 +1,29 @@
+column_name,description,recommended_use
+patient_id,Unique synthetic patient admission identifier,"Identifier only, do not use directly as a model feature"
+admission_date,Date of hospital admission,Use for monthly/seasonal trend analysis
+discharge_date,Date of hospital discharge,Use to validate length_of_stay and trend analysis
+age,Patient age in years,Predictor and cohort analysis
+age_group,Grouped age band,Dashboard and cohort analysis
+gender,Patient gender category,Demographic analysis and fairness check
+bmi,Body Mass Index,Clinical risk predictor
+socioeconomic_index,"Synthetic socioeconomic index: 1 = most disadvantaged, 5 = least disadvantaged",Equity and segmentation analysis
+insurance_type,Insurance/payment type,Operational and socioeconomic analysis
+smoking_status,Smoking status,Behavioural risk predictor
+diabetes,Whether patient has diabetes,Clinical predictor
+hypertension,Whether patient has hypertension,Clinical predictor
+heart_disease,Whether patient has heart disease,Clinical predictor
+chronic_kidney_disease,Whether patient has chronic kidney disease,Clinical predictor
+copd,Whether patient has COPD,Clinical predictor
+depression,Whether patient has depression,Clinical predictor
+comorbidity_count,Total count of selected chronic conditions,Strong clinical risk predictor
+primary_diagnosis,Main reason for hospital admission,Clinical segmentation and dashboard analysis
+admission_type,Admission pathway/type,Operational predictor
+length_of_stay,Hospital length of stay in days,Strong operational predictor
+num_medications,Number of medications recorded during admission,Treatment complexity predictor
+num_procedures,Number of procedures performed during admission,Treatment complexity predictor
+lab_abnormality_score,Synthetic severity score from 0 to 100 based on abnormal lab indicators,Clinical severity predictor
+medication_changed,Whether medication regimen was changed during admission,Treatment change predictor
+discharge_disposition,Discharge destination/care setting,Care pathway predictor
+followup_completed,Whether post-discharge follow-up was completed,Important intervention predictor
+total_hospital_cost_aud,Synthetic total hospital cost in AUD,Cost/resource analysis target or predictor
+readmitted_30days,Target variable: whether patient was readmitted within 30 days,Main ML target variable
