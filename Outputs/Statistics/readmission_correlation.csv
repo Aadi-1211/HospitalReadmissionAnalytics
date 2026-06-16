@@ -1,0 +1,11 @@
+,readmitted_flag
+readmitted_flag,1.0
+comorbidity_count,0.14038060522681864
+age,0.133354334869512
+total_hospital_cost_aud,0.09357089373341279
+length_of_stay,0.08376249719717602
+num_medications,0.0812566716660249
+lab_abnormality_score,0.05001544400468639
+num_procedures,0.023025824636041976
+bmi,0.017899884846710835
+socioeconomic_index,-0.03554944710975292

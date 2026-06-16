@@ -1,0 +1,11 @@
+primary_diagnosis,total_patients,readmitted_patients,readmission_rate
+Kidney/renal disorder,2977,279.0,9.37
+Heart failure,4286,386.0,9.01
+Diabetes complications,4107,323.0,7.86
+General infection,6273,453.0,7.22
+Hypertension-related illness,5243,369.0,7.04
+Respiratory infection/COPD,4546,315.0,6.93
+Mental health-related admission,2627,177.0,6.74
+Injury/trauma,3589,240.0,6.69
+Gastrointestinal disorder,4503,292.0,6.48
+Other medical condition,11849,766.0,6.46

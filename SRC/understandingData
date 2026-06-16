@@ -1,0 +1,18 @@
+import pandas as pd
+
+df = pd.read_csv("Data/Data/healthcare_readmission_clean_50000.csv")
+
+print("\nRows and Columns")
+print(df.shape)
+
+print("\nColumn Names")
+print(df.columns)
+
+print("\nData Types")
+print(df.dtypes)
+
+print("\nMissing Values")
+print(df.isnull().sum())
+
+print("\nTarget Variable")
+print(df["readmitted_30days"].value_counts())

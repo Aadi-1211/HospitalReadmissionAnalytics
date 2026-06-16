@@ -1,0 +1,140 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import scipy.stats as stats
+import os
+
+df = pd.read_csv("Data/Data/healthcare_readmission_clean_50000.csv")
+
+os.makedirs("Outputs/Statistics", exist_ok=True)
+
+# Convert target to numeric
+df["readmitted_flag"] = df["readmitted_30days"].map({"Yes": 1, "No": 0})
+
+# 1. Chi-square: follow-up vs readmission
+table_followup = pd.crosstab(df["followup_completed"], df["readmitted_30days"])
+chi2, p, dof, expected = stats.chi2_contingency(table_followup)
+
+print("\nChi-square Test: Follow-up Completion vs Readmission")
+print(table_followup)
+print("p-value:", p)
+
+followup_rate = (
+    df.groupby("followup_completed")["readmitted_flag"]
+    .mean() * 100
+)
+
+plt.figure(figsize=(6,4))
+followup_rate.plot(kind="bar")
+plt.title("Readmission Rate by Follow-up Completion")
+plt.ylabel("Readmission Rate (%)")
+plt.tight_layout()
+plt.savefig("Outputs/Statistics/followup_chisquare.png")
+plt.show()
+
+# 2. Chi-square: diagnosis vs readmission
+table_diagnosis = pd.crosstab(df["primary_diagnosis"], df["readmitted_30days"])
+chi2, p, dof, expected = stats.chi2_contingency(table_diagnosis)
+
+print("\nChi-square Test: Diagnosis vs Readmission")
+print("p-value:", p)
+
+diagnosis_rate = (
+    df.groupby("primary_diagnosis")["readmitted_flag"]
+    .mean() 
+    .mul(100)
+    .sort_values(ascending=False)
+)
+
+plt.figure(figsize=(10,5))
+diagnosis_rate.plot(kind="bar")
+plt.title("Readmission Rate by Diagnosis")
+plt.ylabel("Readmission Rate (%)")
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.savefig("Outputs/Statistics/diagnosis_readmission.png")
+plt.show()
+
+# 3. T-test: cost difference between readmitted and non-readmitted
+readmitted_cost = df[df["readmitted_30days"] == "Yes"]["total_hospital_cost_aud"]
+not_readmitted_cost = df[df["readmitted_30days"] == "No"]["total_hospital_cost_aud"]
+
+t_stat, p = stats.ttest_ind(readmitted_cost, not_readmitted_cost, equal_var=False)
+
+print("\nT-test: Cost Difference")
+print("Readmitted avg cost:", readmitted_cost.mean())
+print("Not readmitted avg cost:", not_readmitted_cost.mean())
+print("p-value:", p)
+
+plt.figure(figsize=(8,5))
+
+df[df["readmitted_30days"]=="Yes"]["total_hospital_cost_aud"].hist(
+    bins=30,
+    alpha=0.7,
+    label="Readmitted"
+)
+
+df[df["readmitted_30days"]=="No"]["total_hospital_cost_aud"].hist(
+    bins=30,
+    alpha=0.7,
+    label="Not Readmitted"
+)
+
+plt.legend()
+plt.title("Hospital Cost Distribution")
+plt.xlabel("Hospital Cost (AUD)")
+plt.ylabel("Patients")
+
+plt.tight_layout()
+plt.savefig("Outputs/Statistics/cost_distribution.png")
+plt.show()
+
+# 4. Correlation with readmission
+numeric_cols = [
+    "age",
+    "bmi",
+    "socioeconomic_index",
+    "comorbidity_count",
+    "length_of_stay",
+    "num_medications",
+    "num_procedures",
+    "lab_abnormality_score",
+    "total_hospital_cost_aud",
+    "readmitted_flag"
+]
+
+correlation = df[numeric_cols].corr()["readmitted_flag"].sort_values(ascending=False)
+
+print("\nCorrelation with Readmission:")
+print(correlation)
+
+correlation.to_csv("Outputs/Statistics/readmission_correlation.csv")
+
+import seaborn as sns
+
+numeric_cols = [
+    "age",
+    "bmi",
+    "socioeconomic_index",
+    "comorbidity_count",
+    "length_of_stay",
+    "num_medications",
+    "num_procedures",
+    "lab_abnormality_score",
+    "total_hospital_cost_aud",
+    "readmitted_flag"
+]
+
+corr = df[numeric_cols].corr()
+
+plt.figure(figsize=(10,8))
+sns.heatmap(corr, annot=True)
+
+plt.title("Correlation Matrix")
+
+plt.tight_layout()
+plt.savefig("Outputs/Statistics/correlation_heatmap.png")
+plt.show()
+
+
+
+

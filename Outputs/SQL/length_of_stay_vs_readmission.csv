@@ -1,0 +1,5 @@
+stay_group,total_patients,readmitted_patients,readmission_rate
+15+ days,1971,274.0,13.9
+8-14 days,10245,1059.0,10.34
+4-7 days,19117,1245.0,6.51
+1-3 days,18667,1022.0,5.47
